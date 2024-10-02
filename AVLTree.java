@@ -364,13 +364,67 @@ class LUC_AVLTree {
          * do many of the same things as this method.
          */
         
-        return node;
+        
 
         // Base Case, if current node is null, return null (delete leaf node)
         if (node == null) {
             return null;
         }
         
+        // Using Recursion to find the node to delete
+        if (value < node.value) {
+            node.left = deleteElement(value, node.left);
+        } else if (value > node.value) {
+            node.right = deleteElement(value, node.right);
+        } else {
+            
+            // Same as Base Case, Scenario 1: return null (delete) leaf node if node.value == null
+            if (node.left == null && node.right == null) {
+                return null;
+            }
+
+            // Scenario 2 & 3: Replace subtree if subtree is null
+            if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            }
+
+            // Scenario 4: node has two children
+            // identify minValueNode and call it inorderSuccessor
+            Node inorderSuccessor = minValueNode(node.right);
+            // Make inorderSuccessor node current node
+            node.value = inorderSuccessor.value;
+            // Delete node
+            node.right = deleteElement(inorderSuccessor.value, node.right);
+
+        }
+
+        // Calc height 
+        node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+
+        // Call getBalanceFactor to get bf to check balance of tree
+        int bf = getBalanceFactor(node);
+
+        // Perform rotations if left subtree is heavier 
+        if (bf > 1) {
+            if (getBalanceFactor(node.left) >= 0) {
+                return LLRotation(node);
+            } else {
+                return LRRotation(node);
+            }
+        }
+       
+        // Perform rotations if right subtree is heavier
+        if (bf < -1) {
+            if (getBalanceFactor(node.right) <= 0) {
+                return RRRotation(node);
+            } else {
+                return RLRotation(node);
+            }
+        }
+
+        return node;
     }
 
 
