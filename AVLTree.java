@@ -373,42 +373,42 @@ class LUC_AVLTree {
         
         // Using Recursion to find the node to delete
         if (value < node.value) {
-            node.left = deleteElement(value, node.left);
+            node.leftChild = deleteElement(value, node.leftChild);
         } else if (value > node.value) {
-            node.right = deleteElement(value, node.right);
+            node.rightChild = deleteElement(value, node.rightChild);
         } else {
             
             // Same as Base Case, Scenario 1: return null (delete) leaf node if node.value == null
-            if (node.left == null && node.right == null) {
+            if (node.leftChild == null && node.rightChild == null) {
                 return null;
             }
 
             // Scenario 2 & 3: Replace subtree if subtree is null
-            if (node.left == null) {
-                return node.right;
-            } else if (node.right == null) {
-                return node.left;
+            if (node.leftChild == null) {
+                return node.rightChild;
+            } else if (node.rightChild == null) {
+                return node.leftChild;
             }
 
             // Scenario 4: node has two children
             // identify minValueNode and call it inorderSuccessor
-            Node inorderSuccessor = minValueNode(node.right);
+            Node inorderSuccessor = minValueNode(node.rightChild);
             // Make inorderSuccessor node current node
             node.value = inorderSuccessor.value;
             // Delete node
-            node.right = deleteElement(inorderSuccessor.value, node.right);
+            node.rightChild = deleteElement(inorderSuccessor.value, node.rightChild);
 
         }
 
         // Calc height 
-        node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+        node.height = 1 + Math.max(getHeight(node.leftChild), getHeight(node.rightChild));
 
         // Call getBalanceFactor to get bf to check balance of tree
         int bf = getBalanceFactor(node);
 
         // Perform rotations if left subtree is heavier 
         if (bf > 1) {
-            if (getBalanceFactor(node.left) >= 0) {
+            if (getBalanceFactor(node.leftChild) >= 0) {
                 return LLRotation(node);
             } else {
                 return LRRotation(node);
@@ -417,7 +417,7 @@ class LUC_AVLTree {
        
         // Perform rotations if right subtree is heavier
         if (bf < -1) {
-            if (getBalanceFactor(node.right) <= 0) {
+            if (getBalanceFactor(node.rightChild) <= 0) {
                 return RRRotation(node);
             } else {
                 return RLRotation(node);
