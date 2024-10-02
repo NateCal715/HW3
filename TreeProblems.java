@@ -20,13 +20,21 @@ public class TreeProblems {
    */
   
   public static Set<Integer> different(Set<Integer> setA, Set<Integer> setB) {
+    // (A union B) = A + B - (A intersection B)
+    // (A union B) - (A intersection B) = A + B (i.e elements only in A and elements only in B)
+    // Create new set called intersection
+    Set<Integer> intersection = new TreeSet<>(setA);
+    
+    //use retainAll to get all elements in (setA intersection setB)
+    intersection.retainAll(setB);
 
-    // INSERT CODE HERE - DO NOT FORGET TO PLACE YOUR NAME ABOVE
-    //
-    // This can be done numerous ways, but once such will only that
-    // *several* lines of code. Hint: create two temporary TreeSets and utilize the
-    // methods retainAll(), addAll(), and removeAll(). But in the end, get something to work.
+    // add all elements in setB to setA -> (A union B)
+    setA.addAll(setB);
 
+    // (A union B) - (A intersection B)
+    setA.removeAll(intersection);
+
+    // Return setA, which is A + B, or the difference
     return setA;
   }
 
@@ -40,8 +48,19 @@ public class TreeProblems {
 
   public static void removeEven(Map<Integer, String> treeMap) {
 
-    // INSERT CODE HERE.
+    // Usage of Iterator to avoid ConcurrentModificationException
+    Iterator<Integer> iterator = treeMap.keySet().iterator();
 
+    // Iterate thru keys 
+    while (iterator.hasNext()) {
+      Integer key = iterator.next();
+      
+      // If key is even, remove the pair
+      if (key % 2 == 0) {
+        iterator.remove();
+      }
+    }
+    
     return;
   }
 
@@ -55,7 +74,10 @@ public class TreeProblems {
 
   public boolean treesEqual(Map<Integer, String> tree1,Map<Integer, String> tree2 ) {
 
-    // INSERT CODE HERE
+    // Use equals() method which checks both size of maps and if the maps contain same key-value pairs
+    if (tree1.equals(tree2)) {
+      return true;
+    }
 
     return false;
 
