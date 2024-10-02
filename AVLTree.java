@@ -1,6 +1,6 @@
 
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** NATE CALDERON / SECTION 001 ***
  *
  * This java file is a Java object implementing simple AVL Tree.
  * You are to complete the deleteElement method.
@@ -343,6 +343,8 @@ class LUC_AVLTree {
 
     private Node deleteElement(int value, Node node) {
 
+
+        
         /*
          * ADD CODE HERE
          * 
@@ -361,8 +363,14 @@ class LUC_AVLTree {
          * code for each. You can also look at the method InsertElement, as it has do
          * do many of the same things as this method.
          */
-
+        
         return node;
+
+        // Base Case, if current node is null, return null (delete leaf node)
+        if (node == null) {
+            return null;
+        }
+        
     }
 
 
